@@ -25,6 +25,8 @@ npm run build
 
 内容写作与发布方式参见 [CONTENT_GUIDE.md](./CONTENT_GUIDE.md)。
 
+网站已通过根目录的 `.pages.yml` 接入 Pages CMS。登录 `https://app.pagescms.org/` 后，可以直接在浏览器里管理四类内容、草稿和图片。
+
 ## GitHub Pages
 
 仓库命名为 `X-fengzi.github.io`。推送到 `main` 后，在仓库 Settings → Pages 中将 Source 选择为 GitHub Actions，工作流会自动发布到 `https://x-fengzi.github.io/`。

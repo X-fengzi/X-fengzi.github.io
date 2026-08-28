@@ -60,11 +60,15 @@ const links = [
           <a href={link.href} aria-current={path.startsWith(link.href) ? 'page' : undefined}>{link.label}</a>
         ))}
       </nav>
-      <span class="header-index" aria-hidden="true">CN / 01</span>
+      <a class="header-action" href="/studio">
+        <span aria-hidden="true">✦</span>
+        编辑 / 发布
+      </a>
       <details class="mobile-menu">
         <summary>目录</summary>
         <div>
           {links.map((link) => <a href={link.href}>{link.label}</a>)}
+          <a class="mobile-studio" href="/studio">编辑 / 发布 <span>↗</span></a>
         </div>
       </details>
     </header>

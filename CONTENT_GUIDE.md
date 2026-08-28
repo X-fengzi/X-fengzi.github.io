@@ -7,7 +7,17 @@
 - `src/content/notes/`：短笔记和碎片，使用 Markdown。
 - `src/content/series/`：持续更新的专题，支持 Markdown 与 MDX。
 
-## 新建一篇文章
+## 从网页编辑与发布（推荐）
+
+1. 打开网站右上角的“编辑 / 发布”，进入 Pages CMS。
+2. 首次使用 GitHub 登录，并安装 Pages CMS GitHub App；仓库权限只选择 `X-fengzi.github.io`。
+3. 选择“创作 / 文章 / 片段 / 专题”，新建或编辑内容。
+4. 写作过程中开启“保存为草稿”；准备公开时关闭草稿并保存。
+5. 保存会产生一次 Git 提交，并自动触发 GitHub Pages 更新，通常需要 1–3 分钟。
+
+也可以直接访问 `https://app.pagescms.org/`。图片会上传到 `public/images/`，正文中自动写入公开路径。
+
+## 使用文件新建内容
 
 复制同目录下已有文件，修改文件名、顶部信息和正文。例如：
 

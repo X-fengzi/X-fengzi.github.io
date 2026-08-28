@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const cmsURL = 'https://app.pagescms.org/';
+---
+
+<BaseLayout title="创作后台 — XFENGZI" description="从浏览器编辑、保存草稿并发布 XFENGZI 的创作内容。">
+  <section class="studio-hero shell">
+    <div class="studio-copy">
+      <p class="eyebrow">Creator studio · Git powered</p>
+      <h1>写下，保存，<br /><span>让它发生。</span></h1>
+      <p class="studio-intro">这是博客的创作入口。你可以在可视化编辑器里新建作品、写文章、保存草稿和上传图片；发布后，GitHub 会自动更新网站。</p>
+      <div class="studio-actions">
+        <a class="launch" href={cmsURL} target="_blank" rel="noreferrer">
+          打开编辑器
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a class="repository" href="https://github.com/X-fengzi/X-fengzi.github.io/actions" target="_blank" rel="noreferrer">查看发布状态 ↗</a>
+      </div>
+    </div>
+
+    <aside class="control-card" aria-label="发布流程">
+      <div class="card-head">
+        <span>LIVE WORKFLOW</span>
+        <i aria-hidden="true"></i>
+      </div>
+      <ol>
+        <li><span>01</span><div><strong>进入编辑器</strong><p>用 GitHub 登录并选择 X-fengzi.github.io</p></div></li>
+        <li><span>02</span><div><strong>选择内容类型</strong><p>创作、文章、片段或专题</p></div></li>
+        <li><span>03</span><div><strong>保存或发布</strong><p>开启“保存为草稿”可暂不公开</p></div></li>
+        <li><span>04</span><div><strong>自动上线</strong><p>关闭草稿并保存，约 1–3 分钟更新</p></div></li>
+      </ol>
+      <div class="signal"><span></span> GITHUB PAGES CONNECTED</div>
+    </aside>
+  </section>
+
+  <section class="first-time shell">
+    <div>
+      <p class="eyebrow">First time only</p>
+      <h2>第一次需要授权</h2>
+    </div>
+    <div class="first-time-copy">
+      <p>首次打开 Pages CMS 时，先使用 GitHub 登录，再安装 Pages CMS GitHub App。授权时只选择 <strong>X-fengzi.github.io</strong> 这个仓库即可。</p>
+      <p>授权完成后，四个内容栏目会自动出现。以后从网站右上角进入，就能直接写作和发布。</p>
+    </div>
+    <div class="privacy-note">
+      <span>权限说明</span>
+      <p>编辑器只对拥有仓库写入权限的人开放。公开访客即使看到入口，也无法修改内容。</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .studio-hero {
+    min-height: calc(100svh - 76px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(330px, .75fr);
+    gap: clamp(60px, 10vw, 150px);
+    align-items: center;
+    padding-block: clamp(70px, 10vw, 140px);
+  }
+
+  h1 {
+    margin: 48px 0 36px;
+    font-family: var(--display);
+    font-size: clamp(58px, 8vw, 124px);
+    letter-spacing: -.085em;
+    line-height: .98;
+  }
+
+  h1 span { color: var(--blue); }
+  .studio-intro { max-width: 690px; margin: 0; color: var(--muted); font-size: clamp(17px, 1.4vw, 21px); line-height: 1.85; }
+  .studio-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-top: 52px; }
+
+  .launch {
+    display: inline-flex;
+    align-items: center;
+    gap: 38px;
+    padding: 17px 20px 17px 24px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: var(--signal);
+    box-shadow: 7px 7px 0 var(--ink);
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 700;
+    transition: box-shadow 180ms ease, transform 180ms ease;
+  }
+
+  .launch:hover { box-shadow: 2px 2px 0 var(--ink); transform: translate(5px, 5px); }
+  .launch span { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: var(--ink); color: var(--signal); }
+  .repository { border-bottom: 1px solid; font: 11px var(--mono); }
+
+  .control-card {
+    padding: 26px;
+    border: 1px solid var(--ink);
+    border-radius: 30px;
+    background: var(--ink);
+    color: var(--paper);
+    box-shadow: 18px 18px 0 var(--blue);
+    transform: rotate(1.5deg);
+  }
+
+  .card-head { display: flex; justify-content: space-between; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.24); font: 10px var(--mono); letter-spacing: .1em; }
+  .card-head i { width: 10px; height: 10px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 14px var(--signal); }
+  ol { margin: 0; padding: 0; list-style: none; }
+  li { display: grid; grid-template-columns: 42px 1fr; gap: 16px; padding: 23px 0; border-bottom: 1px solid rgba(255,255,255,.14); }
+  li > span { color: var(--signal); font: 10px var(--mono); }
+  li strong { font-family: var(--display); font-size: 18px; }
+  li p { margin: 5px 0 0; color: rgba(247,246,240,.65); font-size: 13px; }
+  .signal { display: flex; align-items: center; gap: 9px; padding-top: 24px; color: rgba(247,246,240,.68); font: 9px var(--mono); letter-spacing: .08em; }
+  .signal span { width: 7px; height: 7px; border-radius: 50%; background: var(--signal); }
+
+  .first-time { display: grid; grid-template-columns: .8fr 1.15fr .75fr; gap: clamp(40px, 7vw, 100px); padding-block: 100px 130px; border-top: 1px solid var(--ink); }
+  .first-time h2 { margin: 34px 0 0; font-family: var(--display); font-size: clamp(38px, 4.7vw, 68px); letter-spacing: -.065em; line-height: 1.05; }
+  .first-time-copy { font-size: 17px; line-height: 1.9; }
+  .first-time-copy p:first-child { margin-top: 0; }
+  .privacy-note { align-self: start; padding: 22px; border-radius: 22px; background: var(--coral); transform: rotate(-2deg); }
+  .privacy-note span { font: 10px var(--mono); letter-spacing: .08em; }
+  .privacy-note p { margin: 22px 0 0; font-size: 14px; }
+
+  @media (max-width: 900px) {
+    .studio-hero { grid-template-columns: 1fr; }
+    .control-card { max-width: 620px; transform: none; }
+    .first-time { grid-template-columns: 1fr 1fr; }
+    .privacy-note { grid-column: 2; }
+  }
+
+  @media (max-width: 620px) {
+    .studio-hero { padding-top: 54px; }
+    h1 { font-size: clamp(52px, 17vw, 78px); }
+    .control-card { padding: 20px; box-shadow: 9px 10px 0 var(--blue); }
+    .first-time { grid-template-columns: 1fr; padding-block: 72px 90px; }
+    .privacy-note { grid-column: auto; }
+  }
+</style>
