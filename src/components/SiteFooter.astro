@@ -1,0 +1,47 @@
+<footer class="footer shell">
+  <div>
+    <span class="footer-mark">X.</span>
+    <p>把未完成的想法，<br />变成可以被看见的东西。</p>
+  </div>
+  <div class="footer-links">
+    <a href="/rss.xml">RSS</a>
+    <a href="https://github.com/X-fengzi" target="_blank" rel="noreferrer">GitHub ↗</a>
+  </div>
+  <div class="footer-meta">
+    <span>XFENGZI ARCHIVE</span>
+    <span>© {new Date().getFullYear()}</span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 40px;
+    padding-block: 56px 30px;
+    border-top: 1px solid var(--ink);
+  }
+
+  .footer-mark {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    place-items: center;
+    margin-bottom: 38px;
+    border-radius: 16px;
+    background: var(--ink);
+    color: var(--signal);
+    font: 500 16px var(--mono);
+  }
+
+  .footer p { margin: 0; font-family: var(--display); font-size: 21px; font-weight: 700; line-height: 1.45; }
+  .footer-links { display: flex; flex-direction: column; align-items: flex-start; gap: 9px; font: 12px var(--mono); }
+  .footer-links a { border-bottom: 1px solid transparent; }
+  .footer-links a:hover { border-color: currentColor; }
+  .footer-meta { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; color: var(--muted); font: 10px var(--mono); letter-spacing: .08em; }
+
+  @media (max-width: 700px) {
+    .footer { grid-template-columns: 1fr 1fr; }
+    .footer-meta { grid-column: 1 / -1; flex-direction: row; align-items: center; }
+  }
+</style>

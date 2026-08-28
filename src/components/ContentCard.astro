@@ -1,0 +1,54 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  meta: string;
+  index: number;
+  accent?: 'blue' | 'ink' | 'signal' | 'paper';
+  tags?: string[];
+}
+
+const { href, title, description, meta, index, accent = 'paper', tags = [] } = Astro.props;
+---
+
+<article class={`content-card content-card--${accent}`}>
+  <a href={href} aria-label={`阅读：${title}`}>
+    <div class="card-top">
+      <span>{String(index).padStart(2, '0')}</span>
+      <span>↗</span>
+    </div>
+    <div class="card-visual" aria-hidden="true"><span>X</span></div>
+    <div class="card-copy">
+      <p>{meta}</p>
+      <h2>{title}</h2>
+      <div class="card-detail">
+        <span>{description}</span>
+        {tags.length > 0 && <span class="tags">{tags.slice(0, 2).join(' · ')}</span>}
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .content-card { min-height: 520px; overflow: hidden; border: 1px solid var(--ink); border-radius: 26px; transition: transform 220ms cubic-bezier(.2,.8,.2,1), box-shadow 220ms ease; }
+  .content-card:hover { z-index: 2; transform: translateY(-8px) rotate(-.6deg); box-shadow: 9px 12px 0 rgba(23,24,21,.12); }
+  .content-card a { height: 100%; display: flex; flex-direction: column; padding: 18px; }
+  .content-card--blue { background: #a9b9ff; }
+  .content-card--ink { background: var(--ink); color: white; }
+  .content-card--signal { background: var(--signal); }
+  .content-card--paper { background: rgba(255,255,255,.2); }
+  .card-top { display: flex; justify-content: space-between; font: 10px var(--mono); }
+  .card-visual { flex: 1; display: grid; place-items: center; min-height: 190px; }
+  .card-visual span { display: grid; width: clamp(110px, 13vw, 180px); aspect-ratio: 1; place-items: center; border: 1px solid currentColor; border-radius: 50%; font: 500 24px var(--mono); transition: border-radius 350ms ease, transform 350ms ease; }
+  .content-card a:hover .card-visual span { border-radius: 10%; transform: rotate(12deg) scale(.9); }
+  .card-copy > p { margin: 0 0 8px; font: 10px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+  h2 { max-width: 520px; margin: 0; font-family: var(--display); font-size: clamp(28px, 3vw, 44px); font-weight: 700; letter-spacing: -.055em; line-height: 1.15; }
+  .card-detail { display: flex; justify-content: space-between; gap: 24px; margin-top: 20px; padding-top: 14px; border-top: 1px solid currentColor; font-size: 12px; }
+  .card-detail > span:first-child { max-width: 390px; }
+  .tags { flex: 0 0 auto; font-family: var(--mono); }
+
+  @media (max-width: 620px) {
+    .content-card { min-height: 450px; }
+  }
+</style>

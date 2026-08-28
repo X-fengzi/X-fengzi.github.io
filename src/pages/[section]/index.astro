@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import ContentCard from '../../components/ContentCard.astro';
+import { sections, type Section, type SectionKey } from '../../data/sections';
+
+export async function getStaticPaths() {
+  return Promise.all(sections.map(async (section) => {
+    const entries = await getCollection(section.key, ({ data }) => !data.draft);
+    entries.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    return { params: { section: section.key }, props: { section, entries } };
+  }));
+}
+
+const { section, entries } = Astro.props as { section: Section; entries: any[] };
+
+function entryMeta(key: SectionKey, entry: any) {
+  const date = entry.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  if (key === 'works') return `${entry.data.medium} · ${entry.data.year}`;
+  if (key === 'essays') return `${date}${entry.data.readingTime ? ` · ${entry.data.readingTime}` : ''}`;
+  if (key === 'series') return `${entry.data.status} · ${entry.data.count} 篇`;
+  return date;
+}
+---
+
+<BaseLayout title={`${section.title} — XFENGZI`} description={section.description}>
+  <PageIntro {...section} />
+  <section class="content-grid shell" aria-label={`${section.title}列表`}>
+    {entries.length > 0 ? entries.map((entry, index) => (
+      <ContentCard
+        href={`/${section.key}/${entry.id}/`}
+        title={entry.data.title}
+        description={entry.data.description}
+        meta={entryMeta(section.key, entry)}
+        index={index + 1}
+        accent={entry.data.accent}
+        tags={entry.data.tags}
+      />
+    )) : <p class="empty-state">这里正在生长，很快会有新内容。</p>}
+  </section>
+</BaseLayout>

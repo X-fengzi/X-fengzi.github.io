@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string | null;
+  isArticle?: boolean;
+}
+
+const {
+  title = 'XFENGZI — 创作与思考的个人档案',
+  description = '记录设计、图像、程序实验与仍在生长的想法。',
+  image = null,
+  isArticle = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+const imageURL = image ? new URL(image, Astro.site ?? Astro.url) : null;
+const path = Astro.url.pathname;
+const links = [
+  { href: '/works', label: '创作' },
+  { href: '/essays', label: '文章' },
+  { href: '/notes', label: '片段' },
+  { href: '/series', label: '专题' },
+  { href: '/about', label: '关于' },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title="XFENGZI RSS" href="/rss.xml" />
+    <meta property="og:type" content={isArticle ? 'article' : 'website'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    {imageURL && <meta property="og:image" content={imageURL} />}
+    <meta name="twitter:card" content={imageURL ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {imageURL && <meta name="twitter:image" content={imageURL} />}
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到正文</a>
+    <header class="site-header shell">
+      <a class="brand" href="/" aria-label="XFENGZI 首页">
+        <span class="brand-mark">X.</span>
+        <span>XFENGZI</span>
+      </a>
+      <nav aria-label="主导航">
+        {links.map((link) => (
+          <a href={link.href} aria-current={path.startsWith(link.href) ? 'page' : undefined}>{link.label}</a>
+        ))}
+      </nav>
+      <span class="header-index" aria-hidden="true">CN / 01</span>
+      <details class="mobile-menu">
+        <summary>目录</summary>
+        <div>
+          {links.map((link) => <a href={link.href}>{link.label}</a>)}
+        </div>
+      </details>
+    </header>
+    <main id="main-content">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

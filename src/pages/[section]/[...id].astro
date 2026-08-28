@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from 'astro:content';
+import EntryLayout from '../../layouts/EntryLayout.astro';
+import { sections, type Section, type SectionKey } from '../../data/sections';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const section of sections) {
+    const entries = await getCollection(section.key, ({ data }) => !data.draft);
+    for (const entry of entries) {
+      paths.push({
+        params: { section: section.key, id: entry.id },
+        props: { section, entry },
+      });
+    }
+  }
+  return paths;
+}
+
+const { section, entry } = Astro.props as { section: Section; entry: any };
+const { Content } = await render(entry);
+
+function entryMeta(key: SectionKey, item: any) {
+  const date = item.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+  if (key === 'works') return `${item.data.medium} · ${item.data.year}`;
+  if (key === 'essays') return `${date}${item.data.readingTime ? ` · ${item.data.readingTime}` : ''}`;
+  if (key === 'series') return `${item.data.status} · ${item.data.count} 篇`;
+  return date;
+}
+---
+
+<EntryLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  section={section.title}
+  sectionHref={`/${section.key}/`}
+  meta={entryMeta(section.key, entry)}
+  tags={entry.data.tags}
+>
+  <Content />
+</EntryLayout>

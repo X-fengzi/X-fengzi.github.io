@@ -1,0 +1,44 @@
+---
+interface Props {
+  index: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  accent?: 'blue' | 'signal' | 'ink';
+}
+
+const { index, eyebrow, title, description, accent = 'signal' } = Astro.props;
+---
+
+<section class={`page-intro page-intro--${accent} shell`}>
+  <div class="intro-index">({index})</div>
+  <div>
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+  </div>
+  <p class="intro-description">{description}</p>
+</section>
+
+<style>
+  .page-intro {
+    display: grid;
+    grid-template-columns: .45fr 1.8fr 1fr;
+    gap: clamp(24px, 4vw, 72px);
+    align-items: end;
+    min-height: 450px;
+    padding-block: 80px 54px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .intro-index { align-self: start; font: 11px var(--mono); }
+  h1 { width: fit-content; margin: 28px 0 0; font-family: var(--display); font-size: clamp(72px, 10vw, 152px); font-weight: 700; letter-spacing: -.08em; line-height: .9; transform: rotate(-1.5deg); }
+  h1::after { display: inline-block; width: .18em; height: .18em; margin-left: .08em; border-radius: 50%; background: var(--coral); content: ''; }
+  .intro-description { max-width: 360px; margin: 0; color: var(--muted); }
+  .page-intro--blue .eyebrow::before { background: var(--blue); }
+  .page-intro--ink .eyebrow::before { background: var(--ink); }
+
+  @media (max-width: 760px) {
+    .page-intro { grid-template-columns: auto 1fr; min-height: 390px; }
+    .intro-description { grid-column: 2; }
+    h1 { font-size: clamp(64px, 21vw, 110px); }
+  }
+</style>

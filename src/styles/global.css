@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  color-scheme: light;
+  --paper: #f7f6f0;
+  --ink: #181914;
+  --muted: #686963;
+  --line: rgba(23, 24, 21, 0.2);
+  --signal: #d7ff3f;
+  --blue: #5559f6;
+  --coral: #ff6e61;
+  --serif: 'Noto Serif SC', serif;
+  --sans: 'Noto Sans SC', sans-serif;
+  --display: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 9% 18%, rgba(215,255,63,.22), transparent 22rem),
+    radial-gradient(circle at 88% 36%, rgba(85,89,246,.11), transparent 26rem),
+    var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.shell {
+  width: min(100% - 40px, 1440px);
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 20;
+  top: 10px;
+  left: 10px;
+  padding: 8px 12px;
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-150%);
+}
+
+.skip-link:focus { transform: translateY(0); }
+
+.site-header {
+  position: sticky;
+  z-index: 15;
+  top: 0;
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  background: rgba(247,246,240,.78);
+  backdrop-filter: blur(18px);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  font-weight: 500;
+}
+
+.brand-mark {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--ink);
+  color: var(--signal);
+  transform: rotate(-7deg);
+}
+
+nav { display: flex; gap: clamp(16px, 2.5vw, 38px); }
+
+nav a { position: relative; padding: 6px 9px; border-radius: 999px; }
+
+nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  content: '';
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 180ms ease;
+}
+
+nav a:hover::after,
+nav a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+nav a[aria-current='page'] { background: var(--ink); color: var(--paper); }
+nav a[aria-current='page']::after { display: none; }
+
+.header-index { justify-self: end; color: var(--muted); }
+.mobile-menu { display: none; position: relative; }
+.mobile-menu summary { cursor: pointer; list-style: none; font: 11px var(--mono); }
+.mobile-menu summary::-webkit-details-marker { display: none; }
+.mobile-menu > div { position: absolute; z-index: 10; top: 32px; right: 0; width: 180px; display: flex; flex-direction: column; padding: 16px; border: 1px solid var(--ink); background: var(--paper); box-shadow: 8px 8px 0 var(--ink); }
+.mobile-menu a { padding: 7px 0; border-bottom: 1px solid var(--line); }
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 0 1px var(--ink);
+  content: '';
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  padding-block: 64px 120px;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 80px 20px;
+  border: 1px solid var(--ink);
+  text-align: center;
+}
+
+::selection { background: var(--blue); color: white; }
+
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+
+@media (max-width: 760px) {
+  .shell { width: min(100% - 24px, 1440px); }
+  .site-header { grid-template-columns: 1fr auto; min-height: 64px; }
+  .site-header nav { display: none; }
+  .header-index { display: none; }
+  .mobile-menu { display: block; }
+  .content-grid { grid-template-columns: 1fr; padding-block: 36px 80px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}

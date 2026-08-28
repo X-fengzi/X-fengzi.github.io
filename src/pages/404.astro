@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="页面没有找到 — XFENGZI" description="这个坐标暂时不存在。" image={null}>
+  <section class="not-found shell">
+    <span>ERROR / 404</span>
+    <div class="lost-orbit" aria-hidden="true">X</div>
+    <h1>这个想法<br />还没有抵达这里。</h1>
+    <a href="/">回到首页 →</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found { min-height: 70svh; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto; align-items: center; padding-block: 60px 100px; }
+  .not-found > span { align-self: start; font: 11px var(--mono); }
+  .not-found h1 { margin: 0; font-family: var(--display); font-size: clamp(52px, 8vw, 112px); letter-spacing: -.08em; line-height: 1; }
+  .not-found a { width: fit-content; border-bottom: 1px solid; font: 12px var(--mono); }
+  .lost-orbit { grid-row: 1 / 4; grid-column: 2; display: grid; width: clamp(160px, 24vw, 340px); aspect-ratio: 1; place-items: center; border: 1px solid var(--ink); border-radius: 50%; background: var(--signal); font: 600 40px var(--display); animation: drift 5s ease-in-out infinite; }
+  @keyframes drift { 50% { border-radius: 34%; transform: rotate(12deg) translateY(-12px); } }
+  @media (max-width: 700px) { .not-found { grid-template-columns: 1fr; gap: 50px; } .lost-orbit { grid-area: auto; } }
+</style>

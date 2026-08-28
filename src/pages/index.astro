@@ -1,0 +1,271 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const sectionLabels = { works: '创作', essays: '文章', notes: '片段', series: '专题' };
+const latest = [];
+for (const section of Object.keys(sectionLabels)) {
+  const entries = await getCollection(section, ({ data }) => !data.draft);
+  latest.push(...entries.map((entry) => ({ ...entry, section })));
+}
+latest.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout>
+  <section class="hero shell">
+    <div class="hero-copy">
+      <p class="eyebrow">Independent creative archive · 2026</p>
+      <h1>把未完成的想法，<br /><em>变成可以被看见的东西。</em></h1>
+      <div class="hero-bottom">
+        <p>这里记录设计、图像、程序实验，<br />以及那些仍在生长的思考。</p>
+        <a class="round-link" href="#selected">向下探索 <span>↘</span></a>
+      </div>
+    </div>
+    <aside class="field-note" aria-label="本期创作札记">
+      <div class="note-top">
+        <span>FIELD NOTE</span>
+        <span>NO. 001</span>
+      </div>
+      <div class="orbit" aria-hidden="true">
+        <span class="orbit-dot"></span>
+        <span class="orbit-core">X</span>
+      </div>
+      <p>当前正在整理：<br /><strong>个人创作如何留下痕迹</strong></p>
+      <span class="note-date">AUG / 2026</span>
+    </aside>
+  </section>
+
+  <div class="ticker" aria-label="内容类型">
+    <div>
+      <span>IDEAS IN MOTION</span><i>✦</i><span>设计</span><i>✦</i><span>图像</span><i>✦</i><span>程序实验</span><i>✦</i><span>片段</span><i>✦</i>
+      <span aria-hidden="true">IDEAS IN MOTION</span><i aria-hidden="true">✦</i><span aria-hidden="true">设计</span><i aria-hidden="true">✦</i><span aria-hidden="true">图像</span><i aria-hidden="true">✦</i><span aria-hidden="true">程序实验</span><i aria-hidden="true">✦</i><span aria-hidden="true">片段</span><i aria-hidden="true">✦</i>
+    </div>
+  </div>
+
+  <section id="selected" class="selected shell">
+    <div class="section-heading">
+      <p class="eyebrow">Selected works</p>
+      <h2>精选创作</h2>
+      <a href="/works">查看全部 ↗</a>
+    </div>
+    <div class="work-grid">
+      <a class="work-card work-card--blue" href="/works/generative-order/">
+        <span class="work-no">01</span>
+        <div class="work-shape" aria-hidden="true"></div>
+        <div>
+          <p>程序实验 · 2026</p>
+          <h3>生成式秩序练习</h3>
+        </div>
+      </a>
+      <a class="work-card work-card--ink" href="/works/city-edge/">
+        <span class="work-no">02</span>
+        <div class="work-lines" aria-hidden="true"></div>
+        <div>
+          <p>视觉笔记 · 2026</p>
+          <h3>城市边缘观察</h3>
+        </div>
+      </a>
+      <a class="work-card work-card--signal" href="/notes/small-start/">
+        <span class="work-no">03</span>
+        <blockquote>“灵感不是答案，<br />而是一扇没有关严的门。”</blockquote>
+        <div>
+          <p>片段 · 2026</p>
+          <h3>关于开始的三句话</h3>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="latest shell">
+    <div class="latest-title">
+      <p class="eyebrow">Recent updates</p>
+      <h2>最近更新</h2>
+    </div>
+    <ol>
+      {latest.slice(0, 5).map((entry, index) => (
+        <li>
+          <a href={`/${entry.section}/${entry.id}/`}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{entry.data.title}</strong>
+            <em>{sectionLabels[entry.section]}</em>
+            <time datetime={entry.data.pubDate.toISOString()}>{entry.data.pubDate.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' })}</time>
+            <i>↗</i>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    min-height: calc(100svh - 76px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.33fr);
+    gap: clamp(40px, 7vw, 120px);
+    padding-block: clamp(64px, 10vh, 124px) 64px;
+  }
+
+  .hero-copy { display: flex; flex-direction: column; }
+
+  h1 {
+    max-width: 1060px;
+    margin: clamp(48px, 9vh, 100px) 0 0;
+    font-family: var(--display);
+    font-size: clamp(52px, 7.4vw, 118px);
+    font-weight: 900;
+    font-weight: 700;
+    letter-spacing: -0.085em;
+    line-height: 1.02;
+  }
+
+  h1 em {
+    position: relative;
+    display: inline-block;
+    color: var(--blue);
+    font-style: normal;
+    transform: rotate(-1.5deg);
+  }
+
+  h1 em::after {
+    position: absolute;
+    z-index: -1;
+    right: -.03em;
+    bottom: .02em;
+    left: -.03em;
+    height: .12em;
+    border-radius: 999px;
+    background: var(--signal);
+    content: '';
+  }
+
+  .hero-bottom {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: auto;
+    padding-top: 70px;
+  }
+
+  .hero-bottom p { margin: 0; color: var(--muted); }
+
+  .round-link {
+    display: flex;
+    width: 112px;
+    height: 112px;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+    font-family: var(--mono);
+    font-size: 11px;
+    transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+
+  .round-link:hover { background: var(--ink); color: var(--signal); transform: rotate(-5deg); }
+  .round-link span { font-size: 18px; }
+
+  .field-note {
+    position: relative;
+    min-height: 510px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+    overflow: hidden;
+    border-radius: 30px;
+    background: var(--blue);
+    color: white;
+    box-shadow: 18px 20px 0 var(--signal);
+    transform: rotate(2.4deg);
+    transition: transform 300ms cubic-bezier(.2,.8,.2,1), box-shadow 300ms ease;
+  }
+
+  .field-note:hover { box-shadow: 9px 11px 0 var(--signal); transform: rotate(0deg) translateY(8px); }
+
+  .field-note::after {
+    position: absolute;
+    right: -45px;
+    bottom: -70px;
+    width: 180px;
+    height: 180px;
+    border: 1px solid rgba(255,255,255,.45);
+    border-radius: 50%;
+    content: '';
+  }
+
+  .note-top { display: flex; justify-content: space-between; font: 10px var(--mono); letter-spacing: .1em; }
+  .field-note p { margin: 0; font-size: 14px; }
+  .field-note strong { display: inline-block; margin-top: 8px; font-size: 21px; line-height: 1.35; }
+  .note-date { font: 10px var(--mono); letter-spacing: .1em; }
+
+  .orbit { position: relative; height: 190px; display: grid; place-items: center; }
+  .orbit::before, .orbit::after { position: absolute; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; content: ''; }
+  .orbit::before { width: 180px; height: 88px; transform: rotate(25deg); animation: orbit-a 9s linear infinite; }
+  .orbit::after { width: 88px; height: 180px; transform: rotate(25deg); animation: orbit-b 12s linear infinite reverse; }
+  .orbit-core { display: grid; width: 52px; height: 52px; place-items: center; border-radius: 50%; background: var(--signal); color: var(--ink); font: 500 18px var(--mono); }
+  .orbit-dot { position: absolute; z-index: 1; top: 45px; right: 40px; width: 10px; height: 10px; border-radius: 50%; background: white; }
+
+  @keyframes orbit-a { to { transform: rotate(385deg); } }
+  @keyframes orbit-b { to { transform: rotate(385deg); } }
+
+  .ticker { overflow: hidden; border-block: 1px solid var(--ink); background: var(--signal); transform: rotate(-.7deg) scale(1.02); }
+  .ticker > div { width: max-content; display: flex; align-items: center; gap: 30px; padding: 14px 0; animation: marquee 24s linear infinite; font: 500 12px var(--mono); letter-spacing: .08em; }
+  .ticker i { color: var(--blue); font-style: normal; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  .selected { padding-block: 110px 120px; }
+  .section-heading { display: grid; grid-template-columns: 1fr 2fr auto; align-items: end; margin-bottom: 42px; }
+  .section-heading h2 { margin: 0; font-family: var(--display); font-size: clamp(42px, 5vw, 72px); letter-spacing: -.065em; line-height: 1; }
+  .section-heading > a { border-bottom: 1px solid; font: 11px var(--mono); }
+  .work-grid { display: grid; grid-template-columns: 1.2fr 1fr .82fr; gap: 12px; }
+  .work-card { position: relative; min-height: 480px; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; overflow: hidden; border-radius: 28px; transition: transform 240ms cubic-bezier(.2,.8,.2,1), box-shadow 240ms ease; }
+  .work-card:hover { z-index: 2; transform: translateY(-10px) rotate(-1deg); box-shadow: 10px 14px 0 rgba(23,24,21,.12); }
+  .work-card--blue { background: #a9b9ff; }
+  .work-card--ink { background: var(--ink); color: white; }
+  .work-card--signal { background: var(--signal); }
+  .work-no { font: 11px var(--mono); }
+  .work-card p { margin: 0 0 4px; font: 10px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+  .work-card h3 { margin: 0; font-family: var(--display); font-size: 27px; letter-spacing: -.04em; }
+  .work-shape { width: 78%; aspect-ratio: 1; align-self: center; border: 1px solid var(--ink); border-radius: 50%; background: repeating-radial-gradient(circle at 50% 50%, transparent 0 12px, var(--ink) 13px 14px); transform: rotate(-15deg) scaleY(.62); }
+  .work-lines { width: 100%; height: 230px; background: repeating-linear-gradient(102deg, transparent 0 9px, rgba(217,255,67,.8) 10px 11px); transform: skewY(-8deg); }
+  blockquote { margin: auto 0; font-family: var(--serif); font-size: clamp(24px, 2.2vw, 36px); font-weight: 700; line-height: 1.45; transform: rotate(-2deg); }
+
+  .latest { display: grid; grid-template-columns: .7fr 1.6fr; gap: 60px; padding-block: 100px 130px; border-top: 1px solid var(--ink); }
+  .latest-title { position: sticky; top: 110px; align-self: start; }
+  .latest-title h2 { margin: 34px 0 0; font-family: var(--display); font-size: clamp(42px, 5vw, 72px); letter-spacing: -.065em; }
+  .latest ol { margin: 0; padding: 0; list-style: none; }
+  .latest li { border-top: 1px solid var(--ink); }
+  .latest li:last-child { border-bottom: 1px solid var(--ink); }
+  .latest li a { display: grid; grid-template-columns: 36px 1fr auto 56px 24px; gap: 18px; align-items: center; padding: 22px 10px; transition: padding 180ms ease, background 180ms ease; }
+  .latest li a:hover { padding-inline: 20px; background: var(--signal); }
+  .latest li span, .latest li time { font: 10px var(--mono); }
+  .latest li strong { font-family: var(--display); font-size: clamp(18px, 2vw, 26px); letter-spacing: -.035em; }
+  .latest li em { padding: 4px 9px; border: 1px solid; border-radius: 999px; font: normal 10px var(--mono); }
+  .latest li i { font-style: normal; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .field-note { min-height: 360px; }
+    .work-grid { grid-template-columns: 1fr 1fr; }
+    .work-card:last-child { grid-column: 1 / -1; min-height: 360px; }
+    .latest { grid-template-columns: 1fr; }
+    .latest-title { position: static; }
+  }
+
+  @media (max-width: 620px) {
+    .hero { padding-top: 54px; }
+    h1 { font-size: clamp(46px, 14vw, 72px); }
+    .hero-bottom { align-items: center; }
+    .round-link { width: 92px; height: 92px; }
+    .section-heading { grid-template-columns: 1fr auto; gap: 20px; }
+    .section-heading .eyebrow { grid-column: 1 / -1; }
+    .work-grid { grid-template-columns: 1fr; }
+    .work-card, .work-card:last-child { grid-column: auto; min-height: 420px; }
+    .latest li a { grid-template-columns: 30px 1fr auto; }
+    .latest li em, .latest li i { display: none; }
+  }
+</style>

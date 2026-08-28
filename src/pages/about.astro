@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+---
+
+<BaseLayout title="关于 — XFENGZI" description="关于 XFENGZI 和这座持续生长的个人创作档案。">
+  <PageIntro
+    index="05"
+    eyebrow="About this archive"
+    title="关于"
+    description="这不是一份固定的自我介绍，而是一张随着创作不断修订的坐标。"
+    accent="signal"
+  />
+  <section class="about shell">
+    <div class="about-lead">
+      <p class="eyebrow">Hello, this is XFENGZI</p>
+      <h2>我在这里保存<br /><span>正在发生的创作。</span></h2>
+    </div>
+    <div class="about-copy">
+      <p>这个网站用来记录设计、图像、摄影、程序实验，以及它们背后的思考。相比展示一个完美的结果，我更关心想法如何出现、偏离，又找到新的方向。</p>
+      <p>创作、文章、片段和专题代表四种不同尺度：从完整作品到一句尚未展开的话。它们会互相引用，也会随着时间被继续修改。</p>
+      <div class="contact-card">
+        <span>保持联系</span>
+        <a href="https://github.com/X-fengzi" target="_blank" rel="noreferrer">github.com/X-fengzi ↗</a>
+      </div>
+    </div>
+    <aside class="about-stamp" aria-hidden="true">
+      <span>OPEN</span>
+      <strong>∞</strong>
+      <span>ARCHIVE</span>
+    </aside>
+  </section>
+</BaseLayout>
+
+<style>
+  .about { position: relative; display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(50px, 10vw, 160px); padding-block: 100px 140px; }
+  .about h2 { margin: 38px 0 0; font-family: var(--display); font-size: clamp(46px, 6vw, 86px); letter-spacing: -.07em; line-height: 1.08; }
+  .about h2 span { color: var(--blue); }
+  .about-copy { max-width: 620px; padding-top: 20px; font-size: 18px; line-height: 1.9; }
+  .about-copy > p:first-child { margin-top: 0; }
+  .contact-card { display: flex; flex-direction: column; gap: 22px; margin-top: 60px; padding: 24px; border-radius: 24px; background: var(--signal); transform: rotate(1deg); }
+  .contact-card span { font: 10px var(--mono); letter-spacing: .08em; }
+  .contact-card a { width: fit-content; border-bottom: 1px solid; font-family: var(--display); font-size: 22px; font-weight: 600; }
+  .about-stamp { position: absolute; right: 5%; bottom: 6%; display: grid; width: 130px; aspect-ratio: 1; place-items: center; padding: 16px; border: 1px solid var(--ink); border-radius: 50%; background: var(--coral); font: 9px var(--mono); transform: rotate(12deg); }
+  .about-stamp strong { font: 600 30px var(--display); }
+  @media (max-width: 760px) { .about { grid-template-columns: 1fr; } .about-stamp { display: none; } }
+</style>
